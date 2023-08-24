@@ -8,12 +8,16 @@
     ''' <summary>
     ''' 画面へ表示する内容を保持するデータテーブル
     ''' </summary>
-    Private fpInventoryDataTable As DataTable
+    Private fpInventoryDataTable As New DataTable
 
+    ''' <summary>
+    ''' 在庫データ接続クラス
+    ''' </summary>
+    Private fpInventoryAdapter As New clsInventoryAdapter
 
-    Private fprInventoryAdapter As clsInventoryAdapter
-
-
+    ''' <summary>
+    ''' データグリッドビュー上の列インデックス
+    ''' </summary>
     Private Enum InvGridColumns
         vSyoriKubun
         vHinmei
@@ -27,18 +31,29 @@
     End Enum
 
 
+    ''' <summary>
+    ''' フォーム開始時イベント
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
     Private Sub frmInventoryInput_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.InputClear()
-
-        Me.fpInventoryDataTable = New DataTable
-
-        Me.fprInventoryAdapter = New clsInventoryAdapter
-        Me.fpInventoryDataTable = fprInventoryAdapter.FillInventoryLog()
+        ' 検索条件をリセットする
+        Me.ClearInput()
 
     End Sub
 
 
+    ''' <summary>
+    ''' 検索ボタンイベント
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
     Private Sub btnFind_Click(sender As Object, e As EventArgs) Handles btnFind.Click
+        ' DBより最新の在庫データを取り込む
+        Me.fpInventoryDataTable = fpInventoryAdapter.FillInventoryLog()
+
+
+        '' 在庫データを検索条件に従い絞り込む
         Dim wViewDataRows As IEnumerable(Of DataRow) =
             (From
                  _dataRow In Me.fpInventoryDataTable
@@ -49,17 +64,21 @@
                  _dataRow.Field(Of String)("Hinmei").Contains(Me.txtHinmei.Text.Trim) And
                  _dataRow.Field(Of String)("Bikou").Contains(Me.txtBikou.Text.Trim))
 
+        '' 検索結果がゼロ件の場合、メッセージを出す
         If (wViewDataRows.Any = False) Then
             MessageBox.Show(Me, "件数がゼロ件です。", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1)
             Me.txtTantou.Focus()
             Return
         End If
 
+        '' 検索結果を画面へ表示する
         Dim wRowCount As Integer = wViewDataRows.Count
-        Me.dgvInventory.RowCount = wRowCount
+        Me.dgvInventory.RowCount = wRowCount ' データグリッドの行数を設定
 
         For _dtIdx As Integer = 0 To wRowCount - 1
             Dim wDataRow As DataRow = wViewDataRows(_dtIdx)
+
+            '' 在庫データを成型してグリッドへ設定する
             Me.dgvInventory.Item(InvGridColumns.vSyoriKubun, _dtIdx).Value =
                 If(wDataRow.Field(Of String)("SyoriKubun") = "1", "入庫", "出庫")
             Me.dgvInventory.Item(InvGridColumns.vHinmei, _dtIdx).Value = wDataRow.Field(Of String)("Hinmei")
@@ -75,6 +94,11 @@
     End Sub
 
 
+    ''' <summary>
+    ''' 終了ボタンイベント
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
     Private Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click
         Me.Close()
 
@@ -84,7 +108,7 @@
     ''' <summary>
     ''' 入力データのクリア
     ''' </summary>
-    Private Sub InputClear()
+    Private Sub ClearInput()
         Me.txtTantou.Clear()
         Me.cmbInputType.SelectedIndex = 0
         Me.txtHinmei.Clear()

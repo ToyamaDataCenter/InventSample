@@ -104,12 +104,13 @@ Public Class clsInventoryAdapter
                     End If
                 Next
 
+                wTransaction.Commit()
+
             Catch ex As Exception
                 wTransaction.Rollback()
                 Throw ex
 
             Finally
-                wTransaction.Commit()
                 wConnection.Close()
 
             End Try
