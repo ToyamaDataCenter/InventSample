@@ -51,7 +51,7 @@ Public Class clsInventoryAdapter
     End Function
 
     ''' <summary>
-    ''' 
+    ''' データベースに追加する
     ''' </summary>
     ''' <returns>更新件数</returns>
     Public Function InsertInventoryLog(ByVal wUpdateDataTable As DataTable) As Integer
