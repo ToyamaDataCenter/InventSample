@@ -58,18 +58,9 @@
             (From
                  _dataRow In Me.fpInventoryDataTable
              Where
-                 _dataRow.Field(Of String)("Tantousya").Contains(Me.txtTantou.Text.Trim) And
+                 _dataRow.Field(Of String)("Tantousya") = Me.txtTantou.Text.Trim And
                  _dataRow.Field(Of DateTime)("SyoriDateTime").Date = Me.dtpInputDate.Value.Date And
-                 _dataRow.Field(Of String)("SyoriKubun") = {"1", "2"}(Me.cmbInputType.SelectedIndex) And
-                 _dataRow.Field(Of String)("Hinmei").Contains(Me.txtHinmei.Text.Trim) And
-                 _dataRow.Field(Of String)("Bikou").Contains(Me.txtBikou.Text.Trim))
-
-        '' 検索結果がゼロ件の場合、メッセージを出す
-        If (wViewDataRows.Any = False) Then
-            MessageBox.Show(Me, "件数がゼロ件です。", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1)
-            Me.txtTantou.Focus()
-            Return
-        End If
+                 _dataRow.Field(Of String)("SyoriKubun") = {"1", "2"}(Me.cmbInputType.SelectedIndex))
 
         '' 検索結果を画面へ表示する
         Dim wRowCount As Integer = wViewDataRows.Count
