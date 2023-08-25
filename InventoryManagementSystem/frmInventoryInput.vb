@@ -44,15 +44,7 @@ Public Class frmInventoryInput
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
     Private Sub frmInventoryInput_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
-        If (Me.fpIsUnregisted = True AndAlso
-            MessageBox.Show(Me,
-                            "未登録のデータがあります。終了してもよろしいですか？",
-                            Me.Text,
-                            MessageBoxButtons.YesNo,
-                            MessageBoxIcon.Warning,
-                            MessageBoxDefaultButton.Button2) = DialogResult.No) Then
-            e.Cancel = True
-        End If
+
     End Sub
 
     ''' <summary>
@@ -82,7 +74,6 @@ Public Class frmInventoryInput
 
         '' 行データを追加する
         Me.fpInventoryDataTable.Rows.Add(wNewRow)
-        Me.SettingUnregisted()
 
         '' 画面を新規入力可能な状態に設定する
         Me.ClearInput(False)
@@ -97,7 +88,6 @@ Public Class frmInventoryInput
     Private Sub btnRegist_Click(sender As Object, e As EventArgs) Handles btnRegist.Click
         ' DBを更新し最新データを再度取得する
         If (fpInventoryAdapter.InsertInventoryLog(fpInventoryDataTable) > 0) Then
-            Me.ReleaseUnregisted()
 
             ' 最新の在庫履歴を取得
             Me.fpInventoryDataTable = fpInventoryAdapter.FillInventoryLog()
@@ -125,7 +115,6 @@ Public Class frmInventoryInput
         If (aNewForm) Then
             '' フォーム立ち上げ時のみクリアする項目
             Me.txtTantou.Clear()
-            Me.ReleaseUnregisted()
 
         End If
 
@@ -160,18 +149,6 @@ Public Class frmInventoryInput
 
         End If
 
-        If (Me.numSuryou.Value = 0) Then
-            wSblWarningMessage.Append("・数量が入力されていません" & vbCrLf)
-            wIsWarning = True
-
-        End If
-
-        If (Me.txtTani.Text.Trim.Length = 0) Then
-            wSblWarningMessage.Append("・単位が入力されていません" & vbCrLf)
-            wIsWarning = True
-
-        End If
-
         '' 警告メッセージを表示する
         If (wIsWarning = True) Then
             MessageBox.Show(Me, wSblWarningMessage.ToString(),
@@ -185,34 +162,7 @@ Public Class frmInventoryInput
 
     End Function
 
-#Region "未登録状態の管理"
-    ''' <summary>
-    ''' 未登録フラグ
-    ''' </summary>
-    Private Property fpIsUnregisted As Boolean = False
 
-    ''' <summary>
-    ''' 未登録状態の設定
-    ''' </summary>
-    Private Sub SettingUnregisted()
-        If (Me.fpIsUnregisted = False) Then
-            Me.btnRegist.BackColor = Color.Red
-            Me.fpIsUnregisted = True
-        End If
-
-    End Sub
-
-    ''' <summary>
-    ''' 未登録状態の解除
-    ''' </summary>
-    Private Sub ReleaseUnregisted()
-        Me.btnRegist.BackColor = SystemColors.Control
-        Me.fpIsUnregisted = False
-
-    End Sub
-
-
-#End Region
 
 
 
