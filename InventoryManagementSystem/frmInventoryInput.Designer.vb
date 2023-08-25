@@ -32,7 +32,6 @@ Partial Class frmInventoryInput
         Label3 = New Label()
         Label5 = New Label()
         Label4 = New Label()
-        Label8 = New Label()
         Label6 = New Label()
         Label2 = New Label()
         Label1 = New Label()
@@ -41,6 +40,7 @@ Partial Class frmInventoryInput
         txtTani = New TextBox()
         txtHinmei = New TextBox()
         btnAdd = New Button()
+        Label8 = New Label()
         SplitContainer2 = New SplitContainer()
         dgvInventory = New DataGridView()
         btnRegist = New Button()
@@ -76,7 +76,6 @@ Partial Class frmInventoryInput
         SplitContainer1.Panel1.Controls.Add(Label3)
         SplitContainer1.Panel1.Controls.Add(Label5)
         SplitContainer1.Panel1.Controls.Add(Label4)
-        SplitContainer1.Panel1.Controls.Add(Label8)
         SplitContainer1.Panel1.Controls.Add(Label6)
         SplitContainer1.Panel1.Controls.Add(Label2)
         SplitContainer1.Panel1.Controls.Add(Label1)
@@ -85,6 +84,7 @@ Partial Class frmInventoryInput
         SplitContainer1.Panel1.Controls.Add(txtTani)
         SplitContainer1.Panel1.Controls.Add(txtHinmei)
         SplitContainer1.Panel1.Controls.Add(btnAdd)
+        SplitContainer1.Panel1.Controls.Add(Label8)
         ' 
         ' SplitContainer1.Panel2
         ' 
@@ -95,20 +95,18 @@ Partial Class frmInventoryInput
         ' 
         ' cmbInputType
         ' 
-        cmbInputType.DisplayMember = "1,2"
         cmbInputType.DropDownStyle = ComboBoxStyle.DropDownList
         cmbInputType.FlatStyle = FlatStyle.System
         cmbInputType.FormattingEnabled = True
         cmbInputType.Items.AddRange(New Object() {"入庫", "出庫"})
-        cmbInputType.Location = New Point(67, 41)
+        cmbInputType.Location = New Point(73, 41)
         cmbInputType.Name = "cmbInputType"
         cmbInputType.Size = New Size(121, 23)
         cmbInputType.TabIndex = 5
-        cmbInputType.ValueMember = "1,2"
         ' 
         ' numKingaku
         ' 
-        numKingaku.Location = New Point(502, 70)
+        numKingaku.Location = New Point(484, 70)
         numKingaku.Maximum = New Decimal(New Integer() {999999999, 0, 0, 0})
         numKingaku.Name = "numKingaku"
         numKingaku.Size = New Size(86, 23)
@@ -119,7 +117,7 @@ Partial Class frmInventoryInput
         ' numSuryou
         ' 
         numSuryou.DecimalPlaces = 2
-        numSuryou.Location = New Point(206, 70)
+        numSuryou.Location = New Point(220, 70)
         numSuryou.Maximum = New Decimal(New Integer() {9999999, 0, 0, 131072})
         numSuryou.Name = "numSuryou"
         numSuryou.Size = New Size(70, 23)
@@ -130,7 +128,7 @@ Partial Class frmInventoryInput
         ' Label7
         ' 
         Label7.AutoSize = True
-        Label7.Location = New Point(471, 74)
+        Label7.Location = New Point(453, 74)
         Label7.Name = "Label7"
         Label7.Size = New Size(31, 15)
         Label7.TabIndex = 12
@@ -148,7 +146,7 @@ Partial Class frmInventoryInput
         ' Label3
         ' 
         Label3.AutoSize = True
-        Label3.Location = New Point(175, 74)
+        Label3.Location = New Point(189, 74)
         Label3.Name = "Label3"
         Label3.Size = New Size(31, 15)
         Label3.TabIndex = 8
@@ -172,19 +170,10 @@ Partial Class frmInventoryInput
         Label4.TabIndex = 4
         Label4.Text = "処理区分"
         ' 
-        ' Label8
-        ' 
-        Label8.AutoSize = True
-        Label8.Location = New Point(12, 103)
-        Label8.Name = "Label8"
-        Label8.Size = New Size(31, 15)
-        Label8.TabIndex = 14
-        Label8.Text = "備考"
-        ' 
         ' Label6
         ' 
         Label6.AutoSize = True
-        Label6.Location = New Point(308, 74)
+        Label6.Location = New Point(306, 74)
         Label6.Name = "Label6"
         Label6.Size = New Size(31, 15)
         Label6.TabIndex = 10
@@ -210,7 +199,7 @@ Partial Class frmInventoryInput
         ' 
         ' txtTantou
         ' 
-        txtTantou.Location = New Point(61, 12)
+        txtTantou.Location = New Point(73, 12)
         txtTantou.Name = "txtTantou"
         txtTantou.Size = New Size(100, 23)
         txtTantou.TabIndex = 1
@@ -227,14 +216,14 @@ Partial Class frmInventoryInput
         ' 
         ' txtTani
         ' 
-        txtTani.Location = New Point(339, 70)
+        txtTani.Location = New Point(337, 70)
         txtTani.Name = "txtTani"
         txtTani.Size = New Size(100, 23)
         txtTani.TabIndex = 11
         ' 
         ' txtHinmei
         ' 
-        txtHinmei.Location = New Point(49, 70)
+        txtHinmei.Location = New Point(73, 70)
         txtHinmei.Name = "txtHinmei"
         txtHinmei.Size = New Size(100, 23)
         txtHinmei.TabIndex = 7
@@ -247,6 +236,15 @@ Partial Class frmInventoryInput
         btnAdd.TabIndex = 16
         btnAdd.Text = "追加"
         btnAdd.UseVisualStyleBackColor = True
+        ' 
+        ' Label8
+        ' 
+        Label8.AutoSize = True
+        Label8.Location = New Point(12, 100)
+        Label8.Name = "Label8"
+        Label8.Size = New Size(31, 15)
+        Label8.TabIndex = 14
+        Label8.Text = "備考"
         ' 
         ' SplitContainer2
         ' 
@@ -275,6 +273,7 @@ Partial Class frmInventoryInput
         dgvInventory.Dock = DockStyle.Fill
         dgvInventory.Location = New Point(0, 0)
         dgvInventory.Name = "dgvInventory"
+        dgvInventory.ReadOnly = True
         dgvInventory.RowTemplate.Height = 25
         dgvInventory.Size = New Size(816, 345)
         dgvInventory.TabIndex = 0

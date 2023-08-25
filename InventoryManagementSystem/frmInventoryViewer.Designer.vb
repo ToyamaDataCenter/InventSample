@@ -24,8 +24,6 @@ Partial Class frmInventoryViewer
     Private Sub InitializeComponent()
         SplitContainer1 = New SplitContainer()
         cmbInputType = New ComboBox()
-        numKingaku = New NumericUpDown()
-        Label7 = New Label()
         dtpInputDate = New DateTimePicker()
         Label5 = New Label()
         Label4 = New Label()
@@ -33,17 +31,24 @@ Partial Class frmInventoryViewer
         Label2 = New Label()
         Label1 = New Label()
         txtTantou = New TextBox()
-        TextBox1 = New TextBox()
+        txtBikou = New TextBox()
         txtHinmei = New TextBox()
         btnFind = New Button()
         SplitContainer2 = New SplitContainer()
         dgvInventory = New DataGridView()
+        vSyoriKubun = New DataGridViewTextBoxColumn()
+        vHinmei = New DataGridViewTextBoxColumn()
+        vSuuryou = New DataGridViewTextBoxColumn()
+        vTani = New DataGridViewTextBoxColumn()
+        vKingaku = New DataGridViewTextBoxColumn()
+        vTantousya = New DataGridViewTextBoxColumn()
+        vBikou = New DataGridViewTextBoxColumn()
+        vSyoriDateTime = New DataGridViewTextBoxColumn()
         btnExit = New Button()
         CType(SplitContainer1, ComponentModel.ISupportInitialize).BeginInit()
         SplitContainer1.Panel1.SuspendLayout()
         SplitContainer1.Panel2.SuspendLayout()
         SplitContainer1.SuspendLayout()
-        CType(numKingaku, ComponentModel.ISupportInitialize).BeginInit()
         CType(SplitContainer2, ComponentModel.ISupportInitialize).BeginInit()
         SplitContainer2.Panel1.SuspendLayout()
         SplitContainer2.Panel2.SuspendLayout()
@@ -62,8 +67,6 @@ Partial Class frmInventoryViewer
         ' SplitContainer1.Panel1
         ' 
         SplitContainer1.Panel1.Controls.Add(cmbInputType)
-        SplitContainer1.Panel1.Controls.Add(numKingaku)
-        SplitContainer1.Panel1.Controls.Add(Label7)
         SplitContainer1.Panel1.Controls.Add(dtpInputDate)
         SplitContainer1.Panel1.Controls.Add(Label5)
         SplitContainer1.Panel1.Controls.Add(Label4)
@@ -71,14 +74,14 @@ Partial Class frmInventoryViewer
         SplitContainer1.Panel1.Controls.Add(Label2)
         SplitContainer1.Panel1.Controls.Add(Label1)
         SplitContainer1.Panel1.Controls.Add(txtTantou)
-        SplitContainer1.Panel1.Controls.Add(TextBox1)
+        SplitContainer1.Panel1.Controls.Add(txtBikou)
         SplitContainer1.Panel1.Controls.Add(txtHinmei)
         SplitContainer1.Panel1.Controls.Add(btnFind)
         ' 
         ' SplitContainer1.Panel2
         ' 
         SplitContainer1.Panel2.Controls.Add(SplitContainer2)
-        SplitContainer1.Size = New Size(816, 612)
+        SplitContainer1.Size = New Size(847, 612)
         SplitContainer1.SplitterDistance = 71
         SplitContainer1.TabIndex = 0
         ' 
@@ -95,42 +98,22 @@ Partial Class frmInventoryViewer
         cmbInputType.TabIndex = 5
         cmbInputType.ValueMember = "1,2"
         ' 
-        ' numKingaku
-        ' 
-        numKingaku.Location = New Point(507, 41)
-        numKingaku.Maximum = New Decimal(New Integer() {999999999, 0, 0, 0})
-        numKingaku.Name = "numKingaku"
-        numKingaku.Size = New Size(86, 23)
-        numKingaku.TabIndex = 13
-        numKingaku.ThousandsSeparator = True
-        numKingaku.Value = New Decimal(New Integer() {999999999, 0, 0, 0})
-        ' 
-        ' Label7
-        ' 
-        Label7.AutoSize = True
-        Label7.Location = New Point(476, 45)
-        Label7.Name = "Label7"
-        Label7.Size = New Size(31, 15)
-        Label7.TabIndex = 12
-        Label7.Text = "金額"
-        ' 
         ' dtpInputDate
         ' 
-        dtpInputDate.CustomFormat = "yyyy/MM/dd hh:mm"
-        dtpInputDate.Format = DateTimePickerFormat.Custom
-        dtpInputDate.Location = New Point(250, 12)
+        dtpInputDate.Format = DateTimePickerFormat.Short
+        dtpInputDate.Location = New Point(243, 12)
         dtpInputDate.Name = "dtpInputDate"
-        dtpInputDate.Size = New Size(132, 23)
+        dtpInputDate.Size = New Size(100, 23)
         dtpInputDate.TabIndex = 3
         ' 
         ' Label5
         ' 
         Label5.AutoSize = True
-        Label5.Location = New Point(189, 16)
+        Label5.Location = New Point(194, 16)
         Label5.Name = "Label5"
-        Label5.Size = New Size(55, 15)
+        Label5.Size = New Size(43, 15)
         Label5.TabIndex = 2
-        Label5.Text = "処理日時"
+        Label5.Text = "処理日"
         ' 
         ' Label4
         ' 
@@ -144,10 +127,10 @@ Partial Class frmInventoryViewer
         ' Label8
         ' 
         Label8.AutoSize = True
-        Label8.Location = New Point(339, 45)
+        Label8.Location = New Point(458, 45)
         Label8.Name = "Label8"
         Label8.Size = New Size(31, 15)
-        Label8.TabIndex = 14
+        Label8.TabIndex = 8
         Label8.Text = "備考"
         ' 
         ' Label2
@@ -170,31 +153,31 @@ Partial Class frmInventoryViewer
         ' 
         ' txtTantou
         ' 
-        txtTantou.Location = New Point(61, 12)
+        txtTantou.Location = New Point(67, 12)
         txtTantou.Name = "txtTantou"
         txtTantou.Size = New Size(100, 23)
         txtTantou.TabIndex = 1
         ' 
-        ' TextBox1
+        ' txtBikou
         ' 
-        TextBox1.Location = New Point(370, 41)
-        TextBox1.Name = "TextBox1"
-        TextBox1.Size = New Size(100, 23)
-        TextBox1.TabIndex = 7
+        txtBikou.Location = New Point(489, 41)
+        txtBikou.Name = "txtBikou"
+        txtBikou.Size = New Size(199, 23)
+        txtBikou.TabIndex = 9
         ' 
         ' txtHinmei
         ' 
-        txtHinmei.Location = New Point(231, 41)
+        txtHinmei.Location = New Point(243, 41)
         txtHinmei.Name = "txtHinmei"
-        txtHinmei.Size = New Size(100, 23)
+        txtHinmei.Size = New Size(199, 23)
         txtHinmei.TabIndex = 7
         ' 
         ' btnFind
         ' 
-        btnFind.Location = New Point(668, 28)
+        btnFind.Location = New Point(699, 32)
         btnFind.Name = "btnFind"
         btnFind.Size = New Size(145, 36)
-        btnFind.TabIndex = 16
+        btnFind.TabIndex = 10
         btnFind.Text = "検索"
         btnFind.UseVisualStyleBackColor = True
         ' 
@@ -214,26 +197,76 @@ Partial Class frmInventoryViewer
         ' 
         SplitContainer2.Panel2.Controls.Add(btnExit)
         SplitContainer2.Panel2MinSize = 38
-        SplitContainer2.Size = New Size(816, 537)
+        SplitContainer2.Size = New Size(847, 537)
         SplitContainer2.SplitterDistance = 485
         SplitContainer2.TabIndex = 0
         ' 
         ' dgvInventory
         ' 
         dgvInventory.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        dgvInventory.Columns.AddRange(New DataGridViewColumn() {vSyoriKubun, vHinmei, vSuuryou, vTani, vKingaku, vTantousya, vBikou, vSyoriDateTime})
         dgvInventory.Dock = DockStyle.Fill
         dgvInventory.Location = New Point(0, 0)
         dgvInventory.Name = "dgvInventory"
+        dgvInventory.ReadOnly = True
         dgvInventory.RowTemplate.Height = 25
-        dgvInventory.Size = New Size(816, 485)
+        dgvInventory.Size = New Size(847, 485)
         dgvInventory.TabIndex = 0
+        ' 
+        ' vSyoriKubun
+        ' 
+        vSyoriKubun.HeaderText = "処理区分"
+        vSyoriKubun.Name = "vSyoriKubun"
+        vSyoriKubun.ReadOnly = True
+        ' 
+        ' vHinmei
+        ' 
+        vHinmei.HeaderText = "品名"
+        vHinmei.Name = "vHinmei"
+        vHinmei.ReadOnly = True
+        ' 
+        ' vSuuryou
+        ' 
+        vSuuryou.HeaderText = "数量"
+        vSuuryou.Name = "vSuuryou"
+        vSuuryou.ReadOnly = True
+        ' 
+        ' vTani
+        ' 
+        vTani.HeaderText = "単位"
+        vTani.Name = "vTani"
+        vTani.ReadOnly = True
+        ' 
+        ' vKingaku
+        ' 
+        vKingaku.HeaderText = "金額"
+        vKingaku.Name = "vKingaku"
+        vKingaku.ReadOnly = True
+        ' 
+        ' vTantousya
+        ' 
+        vTantousya.HeaderText = "担当者"
+        vTantousya.Name = "vTantousya"
+        vTantousya.ReadOnly = True
+        ' 
+        ' vBikou
+        ' 
+        vBikou.HeaderText = "備考"
+        vBikou.Name = "vBikou"
+        vBikou.ReadOnly = True
+        ' 
+        ' vSyoriDateTime
+        ' 
+        vSyoriDateTime.HeaderText = "処理日時"
+        vSyoriDateTime.Name = "vSyoriDateTime"
+        vSyoriDateTime.ReadOnly = True
         ' 
         ' btnExit
         ' 
         btnExit.Dock = DockStyle.Fill
         btnExit.Location = New Point(0, 0)
         btnExit.Name = "btnExit"
-        btnExit.Size = New Size(816, 48)
+        btnExit.Size = New Size(847, 48)
         btnExit.TabIndex = 1
         btnExit.Text = "終了"
         btnExit.UseVisualStyleBackColor = True
@@ -242,7 +275,7 @@ Partial Class frmInventoryViewer
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(816, 612)
+        ClientSize = New Size(847, 612)
         Controls.Add(SplitContainer1)
         Name = "frmInventoryViewer"
         Text = "在庫確認画面"
@@ -251,7 +284,6 @@ Partial Class frmInventoryViewer
         SplitContainer1.Panel2.ResumeLayout(False)
         CType(SplitContainer1, ComponentModel.ISupportInitialize).EndInit()
         SplitContainer1.ResumeLayout(False)
-        CType(numKingaku, ComponentModel.ISupportInitialize).EndInit()
         SplitContainer2.Panel1.ResumeLayout(False)
         SplitContainer2.Panel2.ResumeLayout(False)
         CType(SplitContainer2, ComponentModel.ISupportInitialize).EndInit()
@@ -273,8 +305,14 @@ Partial Class frmInventoryViewer
     Friend WithEvents Label5 As Label
     Friend WithEvents Label4 As Label
     Friend WithEvents txtTantou As TextBox
-    Friend WithEvents numKingaku As NumericUpDown
     Friend WithEvents Label8 As Label
-    Friend WithEvents Label7 As Label
-    Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents txtBikou As TextBox
+    Friend WithEvents vSyoriKubun As DataGridViewTextBoxColumn
+    Friend WithEvents vHinmei As DataGridViewTextBoxColumn
+    Friend WithEvents vSuuryou As DataGridViewTextBoxColumn
+    Friend WithEvents vTani As DataGridViewTextBoxColumn
+    Friend WithEvents vKingaku As DataGridViewTextBoxColumn
+    Friend WithEvents vTantousya As DataGridViewTextBoxColumn
+    Friend WithEvents vBikou As DataGridViewTextBoxColumn
+    Friend WithEvents vSyoriDateTime As DataGridViewTextBoxColumn
 End Class
