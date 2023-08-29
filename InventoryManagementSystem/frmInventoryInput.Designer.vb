@@ -43,6 +43,14 @@ Partial Class frmInventoryInput
         Label8 = New Label()
         SplitContainer2 = New SplitContainer()
         dgvInventory = New DataGridView()
+        vSyoriKubun = New DataGridViewTextBoxColumn()
+        vHinmei = New DataGridViewTextBoxColumn()
+        vSuuryou = New DataGridViewTextBoxColumn()
+        vTani = New DataGridViewTextBoxColumn()
+        vKingaku = New DataGridViewTextBoxColumn()
+        vTantousya = New DataGridViewTextBoxColumn()
+        vBikou = New DataGridViewTextBoxColumn()
+        vSyoriDateTime = New DataGridViewTextBoxColumn()
         btnRegist = New Button()
         btnExit = New Button()
         CType(SplitContainer1, ComponentModel.ISupportInitialize).BeginInit()
@@ -200,6 +208,7 @@ Partial Class frmInventoryInput
         ' txtTantou
         ' 
         txtTantou.Location = New Point(73, 12)
+        txtTantou.MaxLength = 127
         txtTantou.Name = "txtTantou"
         txtTantou.Size = New Size(100, 23)
         txtTantou.TabIndex = 1
@@ -207,7 +216,7 @@ Partial Class frmInventoryInput
         ' txtBikou
         ' 
         txtBikou.Location = New Point(12, 118)
-        txtBikou.MaxLength = 512
+        txtBikou.MaxLength = 255
         txtBikou.Multiline = True
         txtBikou.Name = "txtBikou"
         txtBikou.Size = New Size(800, 88)
@@ -217,6 +226,7 @@ Partial Class frmInventoryInput
         ' txtTani
         ' 
         txtTani.Location = New Point(337, 70)
+        txtTani.MaxLength = 4
         txtTani.Name = "txtTani"
         txtTani.Size = New Size(100, 23)
         txtTani.TabIndex = 11
@@ -224,6 +234,7 @@ Partial Class frmInventoryInput
         ' txtHinmei
         ' 
         txtHinmei.Location = New Point(73, 70)
+        txtHinmei.MaxLength = 127
         txtHinmei.Name = "txtHinmei"
         txtHinmei.Size = New Size(100, 23)
         txtHinmei.TabIndex = 7
@@ -270,13 +281,62 @@ Partial Class frmInventoryInput
         ' dgvInventory
         ' 
         dgvInventory.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        dgvInventory.Columns.AddRange(New DataGridViewColumn() {vSyoriKubun, vHinmei, vSuuryou, vTani, vKingaku, vTantousya, vBikou, vSyoriDateTime})
         dgvInventory.Dock = DockStyle.Fill
         dgvInventory.Location = New Point(0, 0)
         dgvInventory.Name = "dgvInventory"
         dgvInventory.ReadOnly = True
         dgvInventory.RowTemplate.Height = 25
         dgvInventory.Size = New Size(816, 345)
-        dgvInventory.TabIndex = 0
+        dgvInventory.TabIndex = 1
+        ' 
+        ' vSyoriKubun
+        ' 
+        vSyoriKubun.HeaderText = "処理区分"
+        vSyoriKubun.Name = "vSyoriKubun"
+        vSyoriKubun.ReadOnly = True
+        ' 
+        ' vHinmei
+        ' 
+        vHinmei.HeaderText = "品名"
+        vHinmei.Name = "vHinmei"
+        vHinmei.ReadOnly = True
+        ' 
+        ' vSuuryou
+        ' 
+        vSuuryou.HeaderText = "数量"
+        vSuuryou.Name = "vSuuryou"
+        vSuuryou.ReadOnly = True
+        ' 
+        ' vTani
+        ' 
+        vTani.HeaderText = "単位"
+        vTani.Name = "vTani"
+        vTani.ReadOnly = True
+        ' 
+        ' vKingaku
+        ' 
+        vKingaku.HeaderText = "金額"
+        vKingaku.Name = "vKingaku"
+        vKingaku.ReadOnly = True
+        ' 
+        ' vTantousya
+        ' 
+        vTantousya.HeaderText = "担当者"
+        vTantousya.Name = "vTantousya"
+        vTantousya.ReadOnly = True
+        ' 
+        ' vBikou
+        ' 
+        vBikou.HeaderText = "備考"
+        vBikou.Name = "vBikou"
+        vBikou.ReadOnly = True
+        ' 
+        ' vSyoriDateTime
+        ' 
+        vSyoriDateTime.HeaderText = "処理日時"
+        vSyoriDateTime.Name = "vSyoriDateTime"
+        vSyoriDateTime.ReadOnly = True
         ' 
         ' btnRegist
         ' 
@@ -325,7 +385,6 @@ Partial Class frmInventoryInput
     Friend WithEvents SplitContainer2 As SplitContainer
     Friend WithEvents btnExit As Button
     Friend WithEvents btnRegist As Button
-    Friend WithEvents dgvInventory As DataGridView
     Friend WithEvents Label2 As Label
     Friend WithEvents Label1 As Label
     Friend WithEvents txtHinmei As TextBox
@@ -343,4 +402,13 @@ Partial Class frmInventoryInput
     Friend WithEvents Label6 As Label
     Friend WithEvents txtBikou As TextBox
     Friend WithEvents txtTani As TextBox
+    Friend WithEvents dgvInventory As DataGridView
+    Friend WithEvents vSyoriKubun As DataGridViewTextBoxColumn
+    Friend WithEvents vHinmei As DataGridViewTextBoxColumn
+    Friend WithEvents vSuuryou As DataGridViewTextBoxColumn
+    Friend WithEvents vTani As DataGridViewTextBoxColumn
+    Friend WithEvents vKingaku As DataGridViewTextBoxColumn
+    Friend WithEvents vTantousya As DataGridViewTextBoxColumn
+    Friend WithEvents vBikou As DataGridViewTextBoxColumn
+    Friend WithEvents vSyoriDateTime As DataGridViewTextBoxColumn
 End Class

@@ -40,6 +40,7 @@ Partial Class frmInventoryViewer
         vHinmei = New DataGridViewTextBoxColumn()
         vSuuryou = New DataGridViewTextBoxColumn()
         vTani = New DataGridViewTextBoxColumn()
+        vNowZaiko = New DataGridViewTextBoxColumn()
         vKingaku = New DataGridViewTextBoxColumn()
         vTantousya = New DataGridViewTextBoxColumn()
         vBikou = New DataGridViewTextBoxColumn()
@@ -81,7 +82,7 @@ Partial Class frmInventoryViewer
         ' SplitContainer1.Panel2
         ' 
         SplitContainer1.Panel2.Controls.Add(SplitContainer2)
-        SplitContainer1.Size = New Size(847, 612)
+        SplitContainer1.Size = New Size(1039, 627)
         SplitContainer1.SplitterDistance = 71
         SplitContainer1.TabIndex = 0
         ' 
@@ -91,7 +92,7 @@ Partial Class frmInventoryViewer
         cmbInputType.DropDownStyle = ComboBoxStyle.DropDownList
         cmbInputType.FlatStyle = FlatStyle.System
         cmbInputType.FormattingEnabled = True
-        cmbInputType.Items.AddRange(New Object() {"入庫", "出庫"})
+        cmbInputType.Items.AddRange(New Object() {"入庫", "出庫", "入出庫"})
         cmbInputType.Location = New Point(67, 41)
         cmbInputType.Name = "cmbInputType"
         cmbInputType.Size = New Size(121, 23)
@@ -197,20 +198,20 @@ Partial Class frmInventoryViewer
         ' 
         SplitContainer2.Panel2.Controls.Add(btnExit)
         SplitContainer2.Panel2MinSize = 38
-        SplitContainer2.Size = New Size(847, 537)
-        SplitContainer2.SplitterDistance = 485
+        SplitContainer2.Size = New Size(1039, 552)
+        SplitContainer2.SplitterDistance = 500
         SplitContainer2.TabIndex = 0
         ' 
         ' dgvInventory
         ' 
         dgvInventory.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        dgvInventory.Columns.AddRange(New DataGridViewColumn() {vSyoriKubun, vHinmei, vSuuryou, vTani, vKingaku, vTantousya, vBikou, vSyoriDateTime})
+        dgvInventory.Columns.AddRange(New DataGridViewColumn() {vSyoriKubun, vHinmei, vSuuryou, vTani, vNowZaiko, vKingaku, vTantousya, vBikou, vSyoriDateTime})
         dgvInventory.Dock = DockStyle.Fill
         dgvInventory.Location = New Point(0, 0)
         dgvInventory.Name = "dgvInventory"
         dgvInventory.ReadOnly = True
         dgvInventory.RowTemplate.Height = 25
-        dgvInventory.Size = New Size(847, 485)
+        dgvInventory.Size = New Size(1039, 500)
         dgvInventory.TabIndex = 0
         ' 
         ' vSyoriKubun
@@ -236,6 +237,12 @@ Partial Class frmInventoryViewer
         vTani.HeaderText = "単位"
         vTani.Name = "vTani"
         vTani.ReadOnly = True
+        ' 
+        ' vNowZaiko
+        ' 
+        vNowZaiko.HeaderText = "現在在庫"
+        vNowZaiko.Name = "vNowZaiko"
+        vNowZaiko.ReadOnly = True
         ' 
         ' vKingaku
         ' 
@@ -266,7 +273,7 @@ Partial Class frmInventoryViewer
         btnExit.Dock = DockStyle.Fill
         btnExit.Location = New Point(0, 0)
         btnExit.Name = "btnExit"
-        btnExit.Size = New Size(847, 48)
+        btnExit.Size = New Size(1039, 48)
         btnExit.TabIndex = 1
         btnExit.Text = "終了"
         btnExit.UseVisualStyleBackColor = True
@@ -275,7 +282,7 @@ Partial Class frmInventoryViewer
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(847, 612)
+        ClientSize = New Size(1039, 627)
         Controls.Add(SplitContainer1)
         Name = "frmInventoryViewer"
         Text = "在庫確認画面"
@@ -315,4 +322,5 @@ Partial Class frmInventoryViewer
     Friend WithEvents vTantousya As DataGridViewTextBoxColumn
     Friend WithEvents vBikou As DataGridViewTextBoxColumn
     Friend WithEvents vSyoriDateTime As DataGridViewTextBoxColumn
+    Friend WithEvents vNowZaiko As DataGridViewTextBoxColumn
 End Class

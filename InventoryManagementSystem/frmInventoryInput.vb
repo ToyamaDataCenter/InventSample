@@ -18,6 +18,20 @@ Public Class frmInventoryInput
     ''' </summary>
     Private fpInventoryAdapter As New clsInventoryAdapter
 
+    ''' <summary>
+    ''' データグリッドビュー上の列インデックス
+    ''' </summary>
+    Private Enum InvGridColumns
+        vSyoriKubun
+        vHinmei
+        vSuuryou
+        vTani
+        vKingaku
+        vTantousya
+        vBikou
+        vSyoriDateTime
+
+    End Enum
 
     ''' <summary>
     ''' フォーム開始時イベント
@@ -28,13 +42,7 @@ Public Class frmInventoryInput
         ' 画面全体のデータをクリア
         Me.ClearInput(True)
 
-
-        ' 最新の在庫履歴を取得
-        Me.fpInventoryDataTable = fpInventoryAdapter.FillInventoryLog()
-
-        ' 在庫履歴データをとデータグリッドビューへ結びつける
-        Me.dgvInventory.DataSource = Me.fpInventoryDataTable
-
+        Me.FetchInventoryData()
 
     End Sub
 
@@ -43,7 +51,7 @@ Public Class frmInventoryInput
     ''' </summary>
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
-    Private Sub frmInventoryInput_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub frmInventoryInput_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         If (Me.fpIsUnregisted = True AndAlso
             MessageBox.Show(Me,
                             "未登録のデータがあります。終了してもよろしいですか？",
@@ -82,6 +90,19 @@ Public Class frmInventoryInput
 
         '' 行データを追加する
         Me.fpInventoryDataTable.Rows.Add(wNewRow)
+
+        Dim wNewRowIndex As Integer = dgvInventory.RowCount - 2
+        dgvInventory.RowCount = dgvInventory.RowCount + 1
+        Me.dgvInventory.Item(InvGridColumns.vSyoriKubun, wNewRowIndex).Value =
+                If(wNewRow.Field(Of String)("SyoriKubun") = "1", "入庫", "出庫")
+        Me.dgvInventory.Item(InvGridColumns.vHinmei, wNewRowIndex).Value = wNewRow.Field(Of String)("Hinmei")
+        Me.dgvInventory.Item(InvGridColumns.vSuuryou, wNewRowIndex).Value = wNewRow.Field(Of Integer)("Suuryou")
+        Me.dgvInventory.Item(InvGridColumns.vTani, wNewRowIndex).Value = wNewRow.Field(Of String)("Tani")
+        Me.dgvInventory.Item(InvGridColumns.vKingaku, wNewRowIndex).Value = wNewRow.Field(Of Integer)("Kingaku")
+        Me.dgvInventory.Item(InvGridColumns.vTantousya, wNewRowIndex).Value = wNewRow.Field(Of String)("Tantousya")
+        Me.dgvInventory.Item(InvGridColumns.vBikou, wNewRowIndex).Value = wNewRow.Field(Of String)("Bikou")
+        Me.dgvInventory.Item(InvGridColumns.vSyoriDateTime, wNewRowIndex).Value = wNewRow.Field(Of DateTime)("SyoriDatetime").ToString("yy/MM/dd HH:mm")
+
         Me.SettingUnregisted()
 
         '' 画面を新規入力可能な状態に設定する
@@ -99,11 +120,7 @@ Public Class frmInventoryInput
         If (fpInventoryAdapter.InsertInventoryLog(fpInventoryDataTable) > 0) Then
             Me.ReleaseUnregisted()
 
-            ' 最新の在庫履歴を取得
-            Me.fpInventoryDataTable = fpInventoryAdapter.FillInventoryLog()
-
-            ' 在庫履歴データをとデータグリッドビューへ結びつける
-            Me.dgvInventory.DataSource = Me.fpInventoryDataTable
+            Me.FetchInventoryData()
         End If
 
     End Sub
@@ -184,6 +201,47 @@ Public Class frmInventoryInput
         Return Not wIsWarning
 
     End Function
+
+
+    Const VIEW_COUNT As Integer = 20
+    Private Sub FetchInventoryData()
+        ' 最新の在庫履歴を取得
+        Me.fpInventoryDataTable = fpInventoryAdapter.FillInventoryLog()
+
+        '' 在庫履歴データをとデータグリッドビューへ結びつける
+        'Me.dgvInventory.DataSource = Me.fpInventoryDataTable
+        dgvInventory.Rows.Clear()
+
+        '' 在庫データを検索条件に従い絞り込む
+        Dim wViewDataRows As IEnumerable(Of DataRow) =
+            (From
+                 _dataRow In Me.fpInventoryDataTable
+             Order By
+                 _dataRow.Field(Of DateTime)("SyoriDateTime") Descending,
+                 _dataRow.Field(Of Integer)("ID") Descending
+             ).Take(VIEW_COUNT)
+
+        '' 検索結果を画面へ表示する
+        Dim wRowCount As Integer = wViewDataRows.Count
+        Me.dgvInventory.RowCount = wRowCount + 2 ' データグリッドの行数を設定
+
+        For _dtIdx As Integer = 0 To wRowCount - 1
+            Dim wDataRow As DataRow = wViewDataRows(_dtIdx)
+
+            '' 在庫データを成型してグリッドへ設定する
+            Me.dgvInventory.Item(InvGridColumns.vSyoriKubun, _dtIdx).Value =
+                If(wDataRow.Field(Of String)("SyoriKubun") = "1", "入庫", "出庫")
+            Me.dgvInventory.Item(InvGridColumns.vHinmei, _dtIdx).Value = wDataRow.Field(Of String)("Hinmei")
+            Me.dgvInventory.Item(InvGridColumns.vSuuryou, _dtIdx).Value = wDataRow.Field(Of Integer)("Suuryou")
+
+            Me.dgvInventory.Item(InvGridColumns.vTani, _dtIdx).Value = wDataRow.Field(Of String)("Tani")
+            Me.dgvInventory.Item(InvGridColumns.vKingaku, _dtIdx).Value = wDataRow.Field(Of Integer)("Kingaku")
+            Me.dgvInventory.Item(InvGridColumns.vTantousya, _dtIdx).Value = wDataRow.Field(Of String)("Tantousya")
+            Me.dgvInventory.Item(InvGridColumns.vBikou, _dtIdx).Value = wDataRow.Field(Of String)("Bikou")
+            Me.dgvInventory.Item(InvGridColumns.vSyoriDateTime, _dtIdx).Value = wDataRow.Field(Of DateTime)("SyoriDatetime").ToString("yy/MM/dd HH:mm")
+
+        Next
+    End Sub
 
 #Region "未登録状態の管理"
     ''' <summary>

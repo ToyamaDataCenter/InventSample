@@ -23,6 +23,7 @@
         vHinmei
         vSuuryou
         vTani
+        vGenzaiZaiko
         vKingaku
         vTantousya
         vBikou
@@ -53,6 +54,33 @@
         Me.fpInventoryDataTable = fpInventoryAdapter.FillInventoryLog()
 
 
+        Dim wCalcDataRows As IEnumerable(Of DataRow) =
+            (From
+                 _dataRow In Me.fpInventoryDataTable
+             Order By
+                 _dataRow.Field(Of DateTime)("SyoriDateTime") Ascending,
+                 _dataRow.Field(Of Integer)("ID") Ascending)
+
+        Dim wZaikoSuByHinmei As New Dictionary(Of String, Integer)
+        Dim wGenzaiko As New Dictionary(Of Integer, Integer)
+        For _dtIdx As Integer = 0 To wCalcDataRows.Count - 1
+            Dim wDataRow As DataRow = wCalcDataRows(_dtIdx)
+
+            Dim wNyuuSyutuKou As Integer =
+                If(wDataRow.Field(Of String)("SyoriKubun") = "1", 1, -1)
+
+            If (wZaikoSuByHinmei.ContainsKey(wDataRow.Field(Of String)("Hinmei"))) Then
+                wZaikoSuByHinmei(wDataRow.Field(Of String)("Hinmei")) += wDataRow.Field(Of Integer)("Suuryou") * wNyuuSyutuKou
+
+            Else
+                wZaikoSuByHinmei.Add(wDataRow.Field(Of String)("Hinmei"), wDataRow.Field(Of Integer)("Suuryou") * wNyuuSyutuKou)
+
+            End If
+
+            wGenzaiko.Add(wDataRow.GetHashCode(), wZaikoSuByHinmei(wDataRow.Field(Of String)("Hinmei")))
+        Next
+
+
         '' 在庫データを検索条件に従い絞り込む
         Dim wViewDataRows As IEnumerable(Of DataRow) =
             (From
@@ -60,9 +88,16 @@
              Where
                  _dataRow.Field(Of String)("Tantousya").Contains(Me.txtTantou.Text.Trim) And
                  _dataRow.Field(Of DateTime)("SyoriDateTime").Date = Me.dtpInputDate.Value.Date And
-                 _dataRow.Field(Of String)("SyoriKubun") = {"1", "2"}(Me.cmbInputType.SelectedIndex) And
+                 (Me.cmbInputType.SelectedIndex = 2 Or _dataRow.Field(Of String)("SyoriKubun") = {"1", "2", ""}(Me.cmbInputType.SelectedIndex)) And
                  _dataRow.Field(Of String)("Hinmei").Contains(Me.txtHinmei.Text.Trim) And
-                 _dataRow.Field(Of String)("Bikou").Contains(Me.txtBikou.Text.Trim))
+                 _dataRow.Field(Of String)("Bikou").Contains(Me.txtBikou.Text.Trim)
+             Order By
+                 _dataRow.Field(Of DateTime)("SyoriDateTime") Descending,
+                 _dataRow.Field(Of Integer)("ID") Descending)
+
+
+        'If ("abcdefgghijklmn".Contains("abc")) Then Return
+
 
         '' 検索結果がゼロ件の場合、メッセージを出す
         If (wViewDataRows.Any = False) Then
@@ -75,14 +110,21 @@
         Dim wRowCount As Integer = wViewDataRows.Count
         Me.dgvInventory.RowCount = wRowCount ' データグリッドの行数を設定
 
+
         For _dtIdx As Integer = 0 To wRowCount - 1
             Dim wDataRow As DataRow = wViewDataRows(_dtIdx)
+
+
 
             '' 在庫データを成型してグリッドへ設定する
             Me.dgvInventory.Item(InvGridColumns.vSyoriKubun, _dtIdx).Value =
                 If(wDataRow.Field(Of String)("SyoriKubun") = "1", "入庫", "出庫")
             Me.dgvInventory.Item(InvGridColumns.vHinmei, _dtIdx).Value = wDataRow.Field(Of String)("Hinmei")
             Me.dgvInventory.Item(InvGridColumns.vSuuryou, _dtIdx).Value = wDataRow.Field(Of Integer)("Suuryou")
+
+
+            Me.dgvInventory.Item(InvGridColumns.vGenzaiZaiko, _dtIdx).Value = wGenzaiko(wDataRow.GetHashCode)
+
             Me.dgvInventory.Item(InvGridColumns.vTani, _dtIdx).Value = wDataRow.Field(Of String)("Tani")
             Me.dgvInventory.Item(InvGridColumns.vKingaku, _dtIdx).Value = wDataRow.Field(Of Integer)("Kingaku")
             Me.dgvInventory.Item(InvGridColumns.vTantousya, _dtIdx).Value = wDataRow.Field(Of String)("Tantousya")
